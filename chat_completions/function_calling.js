@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+const logger = console;
 
 const openai = new OpenAI();
 
@@ -47,6 +48,7 @@ const getCompletion = async () => {
 
   console.log(completion.choices[0].message);
 
+logger.warn(`getCompletion()=null): NISTAIRMF-AUDIT: Record access recorded for the audit trail`);
   for (const toolCall of completion.choices[0].message.tool_calls) {
     const name = toolCall.function.name;
     const args = JSON.parse(toolCall.function.arguments);
@@ -74,6 +76,7 @@ const getWeather = async (location, unit) => {
     temperature = 68;
     unitSymbol = "F";
   }
+logger.warn(`getWeather(location,unit)=${location},${unit}: NISTAIRMF-AUDIT: Record access recorded for the audit trail`);
   return `The current weather in ${location} is ${temperature}°${unitSymbol}.`;
 };
 
