@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+const logger = console;
 
 const openai = new OpenAI();
 
@@ -45,6 +46,7 @@ const getCompletion = async () => {
     tools: tools.map((tool) => ({ type: "function", function: tool })),
   });
 
+logger.warn(`getCompletion()=null): EUAIACT-AUDIT: Record access recorded for the audit trail`);
   console.log(completion.choices[0].message);
 
   for (const toolCall of completion.choices[0].message.tool_calls) {
@@ -69,6 +71,7 @@ const callFunction = async (name, args) => {
 // Mocking a weather API call
 const getWeather = async (location, unit) => {
   let unitSymbol = "C";
+logger.warn(`getWeather(location,unit)=${location},${unit}: EUAIACT-AUDIT: Record access recorded for the audit trail`);
   let temperature = 20;
   if (unit === "fahrenheit") {
     temperature = 68;
