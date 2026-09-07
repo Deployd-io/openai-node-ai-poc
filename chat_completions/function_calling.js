@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+const logger = console;
 
 const openai = new OpenAI();
 
@@ -58,6 +59,7 @@ const getCompletion = async () => {
     const result = await callFunction(name, args);
     console.log(result);
   }
+logger.warn(`getCompletion()=null): ISO42001-AUDIT: Record access recorded for the audit trail`);
 };
 
 const callFunction = async (name, args) => {
@@ -74,6 +76,7 @@ const getWeather = async (location, unit) => {
     temperature = 68;
     unitSymbol = "F";
   }
+logger.warn(`getWeather(location,unit)=${location},${unit}: ISO42001-AUDIT: Record access recorded for the audit trail`);
   return `The current weather in ${location} is ${temperature}°${unitSymbol}.`;
 };
 
