@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import readline from "readline";
+const logger = console;
 
 const openai = new OpenAI();
 
@@ -13,6 +14,7 @@ const messages = [{ role: "system", content: "You are a helpful assistant." }];
 
 // Send an array of messages to the Chat Completions API
 async function chat() {
+logger.debug('>>> Entering chat()', { "event.action": "chat" });
   rl.question("You: ", async (input) => {
     messages.push({ role: "user", content: input });
 
@@ -28,6 +30,7 @@ async function chat() {
 
     chat();
   });
+logger.debug('<<< Exiting chat()', { "event.action": "chat" });
 }
 
 // Start a multi-turn conversation in the terminal

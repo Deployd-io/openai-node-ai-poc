@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+const logger = console;
 
 const openai = new OpenAI();
 
@@ -37,6 +38,7 @@ const tools = [
 ];
 
 const getCompletion = async () => {
+logger.debug('>>> Entering getCompletion()', { "event.action": "getCompletion" });
   console.log(`User input: ${USER_INPUT}`);
 
   const completion = await openai.chat.completions.create({
@@ -49,31 +51,38 @@ const getCompletion = async () => {
 
   for (const toolCall of completion.choices[0].message.tool_calls) {
     const name = toolCall.function.name;
+	logger.debug(`getCompletion(): name → ${name}`, { "event.action": "getCompletion" });
     const args = JSON.parse(toolCall.function.arguments);
 
     console.log(
       `Calling function '${name}' with args: ${JSON.stringify(args)}`
     );
 
+	logger.debug(`getCompletion(): args → ${args}`, { "event.action": "getCompletion" });
     const result = await callFunction(name, args);
     console.log(result);
+	logger.debug('<<< Exiting getCompletion()', { "event.action": "getCompletion" });
   }
 };
 
 const callFunction = async (name, args) => {
+logger.debug(`>>> Entering callFunction(name=${name},args=${args})`, { "event.action": "callFunction", "logrite.name": name });
   if (name === "get_weather") {
+	logger.debug(`<<< Exiting callFunction(name=${name},args=${args})`, { "event.action": "callFunction", "logrite.name": name });
     return getWeather(args.location, args.unit);
   }
 };
 
 // Mocking a weather API call
 const getWeather = async (location, unit) => {
+logger.debug(`>>> Entering getWeather(location=${location},unit=${unit})`, { "event.action": "getWeather", "logrite.location": location, "logrite.unit": unit });
   let unitSymbol = "C";
   let temperature = 20;
   if (unit === "fahrenheit") {
     temperature = 68;
     unitSymbol = "F";
   }
+logger.debug(`getWeather(location=${location},unit=${unit}): unitSymbol → ${unitSymbol}`, { "event.action": "getWeather", "logrite.location": location, "logrite.unit": unit });
   return `The current weather in ${location} is ${temperature}°${unitSymbol}.`;
 };
 
