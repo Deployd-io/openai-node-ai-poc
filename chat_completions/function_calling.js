@@ -83,6 +83,7 @@ logger.debug(`>>> Entering getWeather(location=${location},unit=${unit})`, { "ev
     unitSymbol = "F";
   }
 logger.debug(`getWeather(location=${location},unit=${unit}): unitSymbol → ${unitSymbol}`, { "event.action": "getWeather", "logrite.location": location, "logrite.unit": unit });
+logger.debug(`<<< Exiting getWeather(location=${location},unit=${unit})`, { "event.action": "getWeather", "logrite.location": location, "logrite.unit": unit });
   return `The current weather in ${location} is ${temperature}°${unitSymbol}.`;
 };
 
